@@ -11,3 +11,19 @@ def create_attendees(event_id):
     
     http_response = attendees_handler.registry(http_request)
     return jsonify(http_response.body), http_response.status_code
+
+@attendees_route_bp.route("/attendees/<attendees_id>/badge", methods=["GET"])
+def get_attendees_badge(attendees_id):
+    attendees_handler = AttendeesHandler()
+    http_request = HttpRequest(param={"attendees_id": attendees_id})
+    
+    http_response = attendees_handler.find_attendees_badge(http_request)
+    return jsonify(http_response.body), http_response.status_code
+
+@attendees_route_bp.route("/events/<event_id>/attendees", methods=["GET"])
+def get_attendees(event_id):
+    attendees_handler = AttendeesHandler()
+    http_request = HttpRequest(param={"event_id": event_id})
+    
+    http_response = attendees_handler.find_attendees_from_event(http_request)
+    return jsonify(http_response.body), http_response.status_code
