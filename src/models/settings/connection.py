@@ -30,5 +30,6 @@ class __DBConnectionHandler:
         self.session.close()
 
 # Variavel que será usada para realizar a conexão do banco
-# no exemplo de "from 'caminho do arquivo' import 'variavel com classe privada'"        
+# no exemplo de "from 'caminho do arquivo' import 'variavel com classe privada'"
+# E usará as funções de banco de dados        
 db_connection_handler = __DBConnectionHandler()

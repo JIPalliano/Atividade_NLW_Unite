@@ -11,7 +11,8 @@ class AttendeesHandler:
     def __init__(self) -> None:
         self.__attendees_repository = AttendeesRepository()
         self.__events_repository = EventsRepository()
-        
+    
+    #Registrando um participante em um evento    
     def registry(self, http_request: HttpRequest) -> HttpResponse:
         body = http_request.body
         event_id = http_request.param["event_id"]
@@ -27,6 +28,7 @@ class AttendeesHandler:
         
         return HttpResponse(body=None, status_code= 201)
     
+    #Mostrando o resultado 0 cartão de acesso de um participante
     def find_attendees_badge(self, http_request: HttpRequest) -> HttpResponse:
         attendees_id = http_request.param["attendees_id"]
         badge = self.__attendees_repository.get_attendees_by_id(attendees_id)
@@ -42,7 +44,8 @@ class AttendeesHandler:
             },
             status_code = 200
         )
-        
+    
+    #Mostrando o resultado de participantes em um evento    
     def find_attendees_from_event(self, http_request = HttpRequest) -> HttpResponse:
         event_id = http_request.param["event_id"]
         attendees = self.__attendees_repository.get_attendees_by_event_id(event_id)
@@ -64,3 +67,18 @@ class AttendeesHandler:
             body={"attendees": formatted_attendees},
             status_code=200
         )
+        
+    def exclude_attendees(self, http_request: HttpRequest) -> HttpResponse:
+        attendees_id = http_request.param["attendees_id"]
+        self.__attendees_repository.exclude_attendees_by_id(attendees_id)
+        if not attendees_id: raise HttpNotFoundError("Participante não encontrado")
+        
+        return HttpResponse(body=None, status_code= 200)
+    
+    def update_attendees(self, http_request: HttpRequest) -> HttpResponse:
+        body = http_request.body
+        attendees_id = http_request.param["attendees_id"]
+        
+        self.__attendees_repository.upadate_attendees_by_id(body, attendees_id)
+        
+        return HttpResponse(body=body, status_code= 201)

@@ -67,3 +67,43 @@ class AttendeesRepository:
                 .all()
             )
             return attendees
+        
+        
+    def exclude_attendees_by_id (self, attendees_id: str) -> Attendees:
+        with db_connection_handler as database:
+            try:
+                attendees = (
+                    database.session
+                    .query(Attendees)
+                    .filter(Attendees.id == attendees_id)
+                    .delete()
+                )
+                database.session.commit()
+                
+                return attendees
+                
+            except NoResultFound:
+                return None
+            
+    def upadate_attendees_by_id(self, attendeesupdate: Dict, attendees_id: str) -> Attendees:
+        name = attendeesupdate["name"]
+        email = attendeesupdate["email"]
+        with db_connection_handler as database:
+            try:
+                attendees = (
+                    database.session
+                    .query(Attendees)
+                    .where(Attendees.id == attendees_id)
+                    .values(Attendees.name(name),
+                            Attendees.email(email)
+                    )
+                )
+                database.session.commit()
+                
+                return attendeesupdate
+            
+            except IntegrityError:
+                raise HttpConflictError('Participante não encontrado!')
+            except Exception as exception:
+                database.session.rollback()
+                raise exception     

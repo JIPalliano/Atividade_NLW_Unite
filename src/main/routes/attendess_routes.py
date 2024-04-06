@@ -40,3 +40,27 @@ def get_attendees(event_id):
     except Exception as exception:
         http_response = handle_error(exception)
         return jsonify(http_response.body), http_response.status_code
+    
+@attendees_route_bp.route("/attendees/<attendees_id>/exclude_attendees", methods=["GET"])
+def exclude_attendees(attendees_id):
+    try:
+        attendees_handler = AttendeesHandler()
+        http_request = HttpRequest(param={"attendees_id": attendees_id})
+        
+        http_response = attendees_handler.exclude_attendees(http_request)
+        return jsonify(http_response.body), http_response.status_code
+    except Exception as exception:
+        http_response = handle_error(exception)
+        return jsonify(http_response.body), http_response.status_code
+    
+@attendees_route_bp.route("/attendees/<attendees_id>/update_attendees", methods=["POST"])
+def update_attendees(attendees_id):
+    try:
+        attendees_handler = AttendeesHandler()
+        http_request = HttpRequest(param={"attendees_id": attendees_id}, body=request.json)
+        
+        http_response = attendees_handler.update_attendees(http_request)
+        return jsonify(http_response.body), http_response.status_code
+    except Exception as exception:
+        http_response = handle_error(exception)
+        return jsonify(http_response.body), http_response.status_code
