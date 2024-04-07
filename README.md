@@ -9,24 +9,24 @@ Para a estruturação dos dados, optei por utilizar o SQLite ferramenta que esta
 
 ## Ferramentas Utilizadas
 
-DBeaver
-Postman
-VScode
+### DBeaver
+### Postman
+### VScode
 
 ## Frameworks Utilizados
 Para o desenvolvimento do projeto, foram utilizados os seguintes frameworks:
 
-Flask/CORS
-SQLAlchemy
-Pytest
+### Flask/CORS
+### SQLAlchemy
+### Pytest
 
 ## Aprendizados Adquiridos
 Durante o desenvolvimento deste projeto, pude aprender diversos conhecimentos, tais como:
 
-Aplicação do padrão de arquitetura MVC (Model, View, Controller)
-Implementação de rotas de URLs para a comunicação entre cliente e servidor
-Validação de exceções para garantir a robustez e segurança do sistema
-Implementação das operações CRUD (Create, Read, Update, Delete) para a manipulação dos dados
-Boas práticas de projeto virtualenv
-Services e repositories+testes automatizados
+### Aplicação do padrão de arquitetura MVC (Model, View, Controller)
+### Implementação de rotas de URLs para a comunicação entre cliente e servidor
+### Validação de exceções para garantir a robustez e segurança do sistema
+### Implementação das operações CRUD (Create, Read, Update, Delete) para a manipulação dos dados
+### Boas práticas de projeto virtualenv
+### Services e repositories+testes automatizados
 
