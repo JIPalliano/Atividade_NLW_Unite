@@ -7,6 +7,12 @@ Olá pessoal! Espero que estejam todos bem. Desenvolvi o meu projeto em colabora
 
 Para a estruturação dos dados, optei por utilizar o SQLite ferramenta que esta presente no python, permitindo a criação de tabelas em SQL. Além disso, fiz uso do DBeaver para estabelecer a conexão com o banco de dados criado em SQLite, possibilitando a visualização e interação com os dados. A integração com o código foi realizada através do SQLAlchemy, proporcionando uma conexão eficiente e uma interação fluida com o banco de dados.
 
+## Ferramentas Utilizadas
+
+DBeaver
+Postman
+VScode
+
 ## Frameworks Utilizados
 Para o desenvolvimento do projeto, foram utilizados os seguintes frameworks:
 
