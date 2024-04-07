@@ -39,3 +39,17 @@ class EventHandler:
             status_code=200
         )
         
+    def exclude_event(self, http_request: HttpRequest) -> HttpResponse:
+        event_id = http_request.param["event_id"]
+        self.__events_repository.exclude_event_by_id(event_id)
+        if not event_id: raise HttpNotFoundError("Participante não encontrado")
+        
+        return HttpResponse(body=None, status_code= 200)
+    
+    def update_event(self, http_request: HttpRequest) -> HttpResponse:
+        body = http_request.body
+        event_id = http_request.param["event_id"]
+
+        self.__events_repository.update_event_by_id(body, event_id)
+
+        return HttpResponse(body=body, status_code= 201)

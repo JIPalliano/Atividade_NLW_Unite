@@ -78,7 +78,7 @@ class AttendeesHandler:
     def update_attendees(self, http_request: HttpRequest) -> HttpResponse:
         body = http_request.body
         attendees_id = http_request.param["attendees_id"]
-        
-        self.__attendees_repository.upadate_attendees_by_id(body, attendees_id)
-        
+
+        self.__attendees_repository.update_attendees_by_id(body, attendees_id)
+
         return HttpResponse(body=body, status_code= 201)

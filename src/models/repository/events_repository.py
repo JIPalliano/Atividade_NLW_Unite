@@ -9,6 +9,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from src.errors.error_types.http_conflict import HttpConflictError
 
 class EventsRepository:
+#Criando evento
     def insert_event(self, eventsInfo: Dict) -> Dict:
         with db_connection_handler as database:
             try:
@@ -42,7 +43,7 @@ class EventsRepository:
                 return event
             except NoResultFound:
                 return None
-            
+#consultar participantes no evento        
     def count_event_attendees(self, event_id: str) -> Dict:
         with db_connection_handler as database:
 
@@ -67,4 +68,51 @@ class EventsRepository:
                 "maximumAttendees": event_count[0].maximum_attendees,
                 "attendeesAmount": len(event_count),
             }
+    
+#excluir
+    def exclude_event_by_id (self, event_id: str) -> Events:
+        with db_connection_handler as database:
+            try:
+                event = (
+                    database.session
+                    .query(Events)
+                    .filter(Events.id == event_id)
+                    .delete()
+                )
+                database.session.commit()
+                
+                return event
+                
+            except NoResultFound:
+                return None
+
+#Atualizar dados do evento
+    def update_event_by_id(self, eventsupdate: Dict, event_id: str) -> Events:
+        with db_connection_handler as database:
+            try:
+                event = (database.session
+                .query(Events)
+                .filter(Events.id == event_id)
+                .first()
+                )
+                if Events:
+                    event.title = eventsupdate["title"] if eventsupdate["title"] else Events.title
+                    event.details = eventsupdate["details"] if eventsupdate["details"] else Events.details
+                    event.slug = eventsupdate["slug"] if eventsupdate["slug"] else Events.slug
+                    event.maximum_attendees = eventsupdate["maximum_attendees"] if eventsupdate["maximum_attendees"] else Events.maximum_attendees
+                    
+                else:
+                    return None
+                    
+                database.session.commit()
+                
+                return eventsupdate
+            
+            except AttributeError:
+                raise HttpConflictError('Evento não encontrado!')
+            except IntegrityError:
+                raise HttpConflictError('Evento não encontrado!')
+            except Exception as exception:
+                database.session.rollback()
+                raise exception     
             

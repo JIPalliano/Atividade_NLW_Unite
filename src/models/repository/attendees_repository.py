@@ -10,6 +10,7 @@ from src.models.entities.events import Events
 from src.errors.error_types.http_conflict import HttpConflictError
 
 class AttendeesRepository:
+#Criar prticipante em um evento
     def insert_attendees(self, attendeesInfo: Dict) -> Dict:
         with db_connection_handler as database:
             try:
@@ -49,7 +50,7 @@ class AttendeesRepository:
             except NoResultFound:
                 return None
             
-            
+#consultar número de participantes no evento
     def get_attendees_by_event_id(self, event_id=str) -> List[Attendees]:
         with db_connection_handler as database:
             attendees = (
@@ -68,7 +69,7 @@ class AttendeesRepository:
             )
             return attendees
         
-        
+#excluir
     def exclude_attendees_by_id (self, attendees_id: str) -> Attendees:
         with db_connection_handler as database:
             try:
@@ -84,24 +85,29 @@ class AttendeesRepository:
                 
             except NoResultFound:
                 return None
-            
-    def upadate_attendees_by_id(self, attendeesupdate: Dict, attendees_id: str) -> Attendees:
-        name = attendeesupdate["name"]
-        email = attendeesupdate["email"]
+
+#Atualizar dados do participante
+    def update_attendees_by_id(self, attendeesupdate: Dict, attendees_id: str) -> Attendees:
         with db_connection_handler as database:
             try:
-                attendees = (
-                    database.session
-                    .query(Attendees)
-                    .where(Attendees.id == attendees_id)
-                    .values(Attendees.name(name),
-                            Attendees.email(email)
-                    )
+                attendees = (database.session
+                .query(Attendees)
+                .filter(Attendees.id == attendees_id)
+                .first()
                 )
+                if Attendees:
+                    attendees.name = attendeesupdate["name"] if attendeesupdate["name"] else Attendees.name
+                    attendees.email = attendeesupdate["email"] if attendeesupdate["email"] else Attendees.email
+                    
+                else:
+                    return None
+                    
                 database.session.commit()
                 
                 return attendeesupdate
             
+            except AttributeError:
+                raise HttpConflictError('Participante não encontrado!')
             except IntegrityError:
                 raise HttpConflictError('Participante não encontrado!')
             except Exception as exception:
